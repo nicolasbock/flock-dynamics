@@ -9,7 +9,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'flock-dynamics=main:main',
+            'flock-dynamics=flock_dynamics:main.main',
         ],
     },
 )
