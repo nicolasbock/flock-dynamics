@@ -26,6 +26,6 @@ jobs:
     - name: Lint
       run: |
         python -m tox -e lint
-    - name: Test with pytest
+    - name: Test package
       run: |
         python -m tox -e py3

@@ -1,31 +1,26 @@
 import pygame
 import sys
 
+from flock_dynamics.bird import Bird
+
 
 def start_simulation(options):
     """The main simulation."""
     pygame.init()
 
-    size = width, height = 1280, 720
-    speed = [1, 1]
-    black = 0, 0, 0
+    size = width, height = options.width, options.height
 
     screen = pygame.display.set_mode(size)
 
-    ball = pygame.image.load("intro_ball.gif")
-    ballrect = ball.get_rect()
+    bird = Bird(options.width / 2, options.height / 2)
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
 
-        ballrect = ballrect.move(speed)
-        if ballrect.left < 0 or ballrect.right > width:
-            speed[0] = -speed[0]
-        if ballrect.top < 0 or ballrect.bottom > height:
-            speed[1] = -speed[1]
-
-        screen.fill(black)
-        screen.blit(ball, ballrect)
+        screen.fill(blue)
+        pygame.draw.line(surface=screen, color=white,
+                         start_pos=(10, 10), end_pos=(20, 11),
+                         width=1)
         pygame.display.flip()
