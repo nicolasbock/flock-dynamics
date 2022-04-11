@@ -11,6 +11,7 @@ def start_simulation(options):
     size = width, height = options.width, options.height
 
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption('Flock Dynamics')
 
     bird = Bird(options.width / 2, options.height / 2)
 
