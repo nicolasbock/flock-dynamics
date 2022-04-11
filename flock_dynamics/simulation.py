@@ -12,15 +12,15 @@ def start_simulation(options):
 
     screen = pygame.display.set_mode(size)
 
-    bird = Bird(options.width / 2, options.height / 2)
+    birds = [Bird(options.width / 2, options.height / 2, angle=0.2, speed=0.5)]
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
 
-        screen.fill(blue)
-        pygame.draw.line(surface=screen, color=white,
-                         start_pos=(10, 10), end_pos=(20, 11),
-                         width=1)
+        screen.fill('blue')
+        for bird in birds:
+            bird.update(width, height)
+            bird.draw(screen)
         pygame.display.flip()
