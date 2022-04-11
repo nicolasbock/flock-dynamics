@@ -3,7 +3,8 @@ import sys
 
 from flock_dynamics.bird import Bird
 
-FPS = 30 # frames per second
+FPS = 30  # frames per second
+
 
 def start_simulation(options):
     """The main simulation."""
