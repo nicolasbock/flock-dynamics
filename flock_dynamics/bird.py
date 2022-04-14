@@ -6,14 +6,18 @@ import pygame
 class Bird():
     """A bird."""
 
-    def __init__(self, x=0, y=0, angle=0, speed=1):
+    def __init__(self,
+                 x: float = 0,
+                 y: float = 0,
+                 angle: float = 0,
+                 speed: float = 1):
         self.angle = angle
         self.speed = speed
         self.start = (x, y)
         self.end = (self.start[0] + 10 * math.sin(self.angle),
                     self.start[1] + 10 * math.cos(self.angle))
 
-    def update(self, width, height):
+    def update_position(self, width: float, height: float):
         """Update the birds."""
         self.angle += 0.1 * (random() - 0.5)  # nosec
         start = (self.start[0] + self.speed * math.cos(self.angle),
@@ -31,7 +35,7 @@ class Bird():
         self.start = start
         self.end = end
 
-    def draw(self, screen):
+    def draw(self, screen: pygame.Surface):
         """Draw the screen."""
         pygame.draw.line(surface=screen, color='white',
                          start_pos=self.start, end_pos=self.end,
