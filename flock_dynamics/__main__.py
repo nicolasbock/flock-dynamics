@@ -9,7 +9,7 @@ from flock_dynamics.simulation import simulate
 FPS = 30  # frames per second
 
 
-def parse_commandline():
+def parse_commandline() -> argparse.Namespace:
     """Parse the command line."""
     parser = argparse.ArgumentParser(prog='flock-dynamics')
     parser.add_argument(
@@ -27,7 +27,7 @@ def parse_commandline():
     return parser.parse_args()
 
 
-def start_simulation(options):
+def start_simulation(options: argparse.Namespace):
     """The main simulation."""
     pygame.init()
     fps_clock = pygame.time.Clock()
