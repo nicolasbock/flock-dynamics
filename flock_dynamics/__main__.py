@@ -1,5 +1,12 @@
+"""The main function."""
+
 import argparse
-from flock_dynamics.simulation import start_simulation
+from random import random
+import pygame
+from flock_dynamics.bird import Bird
+from flock_dynamics.simulation import simulate
+
+FPS = 30  # frames per second
 
 
 def parse_commandline():
@@ -18,6 +25,31 @@ def parse_commandline():
         help="The height of the simulation window (default %(default)s)",
     )
     return parser.parse_args()
+
+
+def start_simulation(options):
+    """The main simulation."""
+    pygame.init()
+    fps_clock = pygame.time.Clock()
+    size = width, height = options.width, options.height
+
+    screen = pygame.display.set_mode(size)
+    pygame.display.set_caption('Flock Dynamics')
+
+    birds = [Bird(options.width * random(),  # nosec
+                  options.height * random(),  # nosec
+                  angle=0.2, speed=4)]
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        screen.fill('blue')
+        simulate(screen, birds, width, height)
+        pygame.display.flip()
+        fps_clock.tick(FPS)
 
 
 def main():

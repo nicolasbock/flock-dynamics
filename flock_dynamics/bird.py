@@ -1,4 +1,5 @@
 import math
+from random import random
 import pygame
 
 
@@ -13,6 +14,8 @@ class Bird():
                     self.start[1] + 10 * math.cos(self.angle))
 
     def update(self, width, height):
+        """Update the birds."""
+        self.angle += 0.1 * (random() - 0.5)  # nosec
         start = (self.start[0] + self.speed * math.cos(self.angle),
                  self.start[1] + self.speed * math.sin(self.angle))
         end = (start[0] + 10 * math.cos(self.angle),
@@ -29,6 +32,7 @@ class Bird():
         self.end = end
 
     def draw(self, screen):
+        """Draw the screen."""
         pygame.draw.line(surface=screen, color='white',
                          start_pos=self.start, end_pos=self.end,
                          width=1)
