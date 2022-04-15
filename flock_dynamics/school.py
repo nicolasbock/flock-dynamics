@@ -33,10 +33,10 @@ class School():
     def get_nearest_neighbors(self, fish: Fish, k: int = 1) -> list[Fish]:
         """Get the k nearsest neighbors of this fish."""
         distances: list[tuple[int, float]] = []
-        for other_fish in enumerate(self.school):
+        for i, other_fish in enumerate(self.school):
             distances.append(
-                (other_fish[0],
-                 (fish.start[0] - other_fish[1].start[0])**2 +
-                 (fish.start[1] - other_fish[1].start[1])**2))
+                (i,
+                 (fish.start[0] - other_fish.start[0])**2 +
+                 (fish.start[1] - other_fish.start[1])**2))
         sorted_distances = sorted(distances, key=lambda item: item[1])[1:]
         return [self.school[item[0]] for item in sorted_distances]
