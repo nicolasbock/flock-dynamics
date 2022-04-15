@@ -17,9 +17,24 @@ class Bird():
         self.end = (self.start[0] + 10 * math.sin(self.angle),
                     self.start[1] + 10 * math.cos(self.angle))
 
+    def set_speed(self, speed: float):
+        """Set the target speed of the bird."""
+        # TODO: "Slowly" increase the speed. This will require
+        # information on game clock.
+        self.speed = speed
+
+    def set_angle(self, angle: float):
+        """Set the angle of the Bird."""
+        # TODO: "Slowly" update angle.
+        self.angle = angle
+
+    def get_nearest_neighbors(self, k: int = 1):
+        """Get the k nearsest neighbors of this bird."""
+        return self
+
     def update_position(self, width: float, height: float):
         """Update the birds."""
-        self.angle += 0.1 * (random() - 0.5)  # nosec
+        self.set_angle(self.angle + 0.1 * (random() - 0.5))  # nosec
         start = (self.start[0] + self.speed * math.cos(self.angle),
                  self.start[1] + self.speed * math.sin(self.angle))
         end = (start[0] + 10 * math.cos(self.angle),
