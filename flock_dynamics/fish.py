@@ -23,6 +23,14 @@ class Fish():
         return f'Fish(x={self.start[0]}, y={self.start[1]}, ' \
             + f'angle={self.angle}, speed={self.speed})'
 
+    def __eq__(self, other) -> bool:
+        if self.start[0] == other.start[0] and \
+           self.start[1] == other.start[1] and \
+           self.angle == other.angle and \
+           self.speed == other.speed:
+            return True
+        return False
+
     def set_speed(self, speed: float):
         """Set the target speed of the bird."""
         # TODO: "Slowly" increase the speed. This will require
