@@ -3,7 +3,7 @@ import pygame
 
 
 class Fish():
-    """A bird."""
+    """A fish."""
 
     def __init__(self,
                  x: float = 0,
@@ -24,13 +24,13 @@ class Fish():
             + f'angle={self.angle}, speed={self.speed})'
 
     def set_speed(self, speed: float):
-        """Set the target speed of the bird."""
+        """Set the target speed of the fish."""
         # TODO: "Slowly" increase the speed. This will require
         # information on game clock.
         self.speed = speed
 
     def set_angle(self, angle: float):
-        """Set the angle of the Bird."""
+        """Set the angle of the fish."""
         # TODO: "Slowly" update angle.
         self.angle = angle
 
