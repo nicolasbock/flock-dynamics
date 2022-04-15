@@ -7,7 +7,7 @@ from flock_dynamics.school import School
 
 
 def update_position(fish: Fish, width: float, height: float):
-    """Update the birds."""
+    """Update the fish."""
     fish.set_angle(fish.angle + 0.1 * (random() - 0.5))  # nosec
     start = (fish.start[0] + fish.speed * math.cos(fish.angle),
              fish.start[1] + fish.speed * math.sin(fish.angle))
