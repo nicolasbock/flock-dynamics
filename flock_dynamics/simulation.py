@@ -7,8 +7,7 @@ from flock_dynamics.school import School
 
 
 def update_position(fish: Fish, width: float, height: float):
-    """Update the fish."""
-    fish.set_angle(fish.angle + 0.1 * (random() - 0.5))  # nosec
+    """Update the position of the fish based on angle and speed."""
     start = (fish.start[0] + fish.speed * math.cos(fish.angle),
              fish.start[1] + fish.speed * math.sin(fish.angle))
     end = (start[0] + 10 * math.cos(fish.angle),
@@ -25,11 +24,18 @@ def update_position(fish: Fish, width: float, height: float):
     fish.end = end
 
 
+def update_speed_and_angle(fish: Fish):
+    """Update the speed and angle of this fish."""
+    fish.set_speed(fish.speed)
+    fish.set_angle(fish.angle + 0.1 * (random() - 0.5))  # nosec
+
+
 def simulation_step(screen: pygame.Surface,
                     school: School,
                     width: float,
                     height: float):
     """Take another simulation step."""
     for fish in school.get_fish():
+        update_speed_and_angle(fish)
         update_position(fish, width, height)
         fish.draw(screen)
