@@ -1,12 +1,10 @@
 """The main function."""
 
 import argparse
-import math
-from random import random
 import sys
 import pygame
-from flock_dynamics.fish import Fish
-from flock_dynamics.simulation import simulate
+from flock_dynamics.school import School
+from flock_dynamics.simulation import simulation_step
 
 FPS = 30  # frames per second
 
@@ -44,12 +42,7 @@ def start_simulation(options: argparse.Namespace):
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption('Flock Dynamics')
 
-    school = []
-    for _ in range(options.school_size):
-        school.append(Fish(options.width * random(),  # nosec
-                      options.height * random(),  # nosec
-                      angle=2 * math.pi * random(),
-                      speed=2 + 2 * random()))
+    school = School(options.school_size, width, height)
 
     while True:
         for event in pygame.event.get():
@@ -58,7 +51,7 @@ def start_simulation(options: argparse.Namespace):
                 sys.exit()
 
         screen.fill('blue')
-        simulate(screen, school, width, height)
+        simulation_step(screen, school, width, height)
         pygame.display.flip()
         fps_clock.tick(FPS)
 
