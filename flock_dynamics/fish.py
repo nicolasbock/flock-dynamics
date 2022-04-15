@@ -16,6 +16,13 @@ class Fish():
         self.end = (self.start[0] + 10 * math.sin(self.angle),
                     self.start[1] + 10 * math.cos(self.angle))
 
+    def __str__(self) -> str:
+        return f'Fish f{id(self)} at ({self.start[0]}, {self.start[1]})'
+
+    def __repr__(self) -> str:
+        return f'Fish(x={self.start[0]}, y={self.start[1]}, ' \
+            + f'angle={self.angle}, speed={self.speed})'
+
     def set_speed(self, speed: float):
         """Set the target speed of the bird."""
         # TODO: "Slowly" increase the speed. This will require
