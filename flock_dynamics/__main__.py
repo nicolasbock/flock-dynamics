@@ -1,9 +1,11 @@
 """The main function."""
 
 import argparse
+import math
 from random import random
+import sys
 import pygame
-from flock_dynamics.bird import Bird
+from flock_dynamics.fish import Fish
 from flock_dynamics.simulation import simulate
 
 FPS = 30  # frames per second
@@ -13,16 +15,22 @@ def parse_commandline() -> argparse.Namespace:
     """Parse the command line."""
     parser = argparse.ArgumentParser(prog='flock-dynamics')
     parser.add_argument(
-        "--width",
+        '--width',
         type=int,
         default=1280,
-        help="The width of the simulation window (default %(default)s)",
+        help='The width of the simulation window (default %(default)s)',
     )
     parser.add_argument(
-        "--height",
+        '--height',
         type=int,
         default=720,
-        help="The height of the simulation window (default %(default)s)",
+        help='The height of the simulation window (default %(default)s)',
+    )
+    parser.add_argument(
+        '--school-size',
+        type=int,
+        default=1,
+        help='The number of fish in the school (default = %(default)s)',
     )
     return parser.parse_args()
 
@@ -36,9 +44,12 @@ def start_simulation(options: argparse.Namespace):
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption('Flock Dynamics')
 
-    birds = [Bird(options.width * random(),  # nosec
-                  options.height * random(),  # nosec
-                  angle=0.2, speed=4)]
+    school = []
+    for _ in range(options.school_size):
+        school.append(Fish(options.width * random(),  # nosec
+                      options.height * random(),  # nosec
+                      angle=2 * math.pi * random(),
+                      speed=2 + 2 * random()))
 
     while True:
         for event in pygame.event.get():
@@ -47,7 +58,7 @@ def start_simulation(options: argparse.Namespace):
                 sys.exit()
 
         screen.fill('blue')
-        simulate(screen, birds, width, height)
+        simulate(screen, school, width, height)
         pygame.display.flip()
         fps_clock.tick(FPS)
 

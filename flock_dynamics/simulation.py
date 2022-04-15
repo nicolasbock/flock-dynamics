@@ -1,13 +1,13 @@
 """The simulation."""
 import pygame
-from flock_dynamics.bird import Bird
+from flock_dynamics.fish import Fish
 
 
 def simulate(screen: pygame.Surface,
-             birds: list[Bird],
+             school: list[Fish],
              width: float,
              height: float):
     """Take another simulation step."""
-    for bird in birds:
-        bird.update_position(width, height)
-        bird.draw(screen)
+    for fish in school:
+        fish.update_position(width, height)
+        fish.draw(screen)

@@ -3,7 +3,7 @@ from random import random
 import pygame
 
 
-class Bird():
+class Fish():
     """A bird."""
 
     def __init__(self,
