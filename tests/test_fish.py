@@ -27,15 +27,28 @@ class TestFish(unittest.TestCase):
         """Test set the speed."""
         fish = Fish(speed=4)
         self.assertEqual(fish.speed, 4)
+        self.assertEqual(fish.target_speed, 4)
         fish.set_speed(5)
-        self.assertEqual(fish.speed, 5)
+        self.assertEqual(fish.speed, 4)
+        self.assertEqual(fish.target_speed, 5)
 
     def test_set_angle(self):
         """Test set the angle."""
         fish = Fish(angle=0.1)
         self.assertEqual(fish.angle, 0.1)
+        self.assertEqual(fish.target_angle, 0.1)
         fish.set_angle(0.2)
-        self.assertEqual(fish.angle, 0.2)
+        self.assertEqual(fish.angle, 0.1)
+        self.assertEqual(fish.target_angle, 0.2)
+
+    def test_update(self):
+        """Test the update method."""
+        fish = Fish()
+        fish.set_angle(1.8)
+        self.assertEqual(fish.angle, 0)
+        self.assertEqual(fish.target_angle, 1.8)
+        fish.update(100, 100)
+        self.assertAlmostEqual(fish.angle, 2 * math.pi / 30)
 
     def test_get_distance(self):
         """Test the distance util method."""
