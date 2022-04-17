@@ -1,6 +1,7 @@
 """Unit tests for Fish"""
 
 import unittest
+import math
 from flock_dynamics.fish import Fish
 
 
@@ -35,3 +36,30 @@ class TestFish(unittest.TestCase):
         self.assertEqual(fish.angle, 0.1)
         fish.set_angle(0.2)
         self.assertEqual(fish.angle, 0.2)
+
+    def test_get_distance(self):
+        """Test the distance util method."""
+        fish_1 = Fish(0, 0)
+        fish_2 = Fish(3, 10)
+        self.assertEqual(fish_1.get_distance_to_other_fish(fish_2),
+                         math.sqrt(3**2 + 10**2))
+
+    def test_get_direction(self):
+        """Test the direction to other fish."""
+        fish = Fish(0, 0)
+        angles = [
+            0,
+            0.3,
+            math.pi / 2,
+            1.9, math.pi,
+            3.5,
+            3 / 2 * math.pi,
+            5.4,
+            2 * math.pi,
+            7,
+            ]
+        for angle in angles:
+            self.assertAlmostEqual(
+                fish.get_direction_to_other_fish(
+                    Fish(math.cos(angle), math.sin(angle))),
+                angle % (2 * math.pi))
