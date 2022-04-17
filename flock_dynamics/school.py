@@ -38,5 +38,6 @@ class School():
                 (i,
                  (fish.start[0] - other_fish.start[0])**2 +
                  (fish.start[1] - other_fish.start[1])**2))
-        sorted_distances = sorted(distances, key=lambda item: item[1])[1:]
+        k = min(len(self.school), k)
+        sorted_distances = sorted(distances, key=lambda item: item[1])[1:1 + k]
         return [self.school[item[0]] for item in sorted_distances]
