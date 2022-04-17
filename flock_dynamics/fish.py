@@ -80,22 +80,10 @@ class Fish():
 
         start = (self.start[0] + self.speed * math.cos(self.angle),
                  self.start[1] + self.speed * math.sin(self.angle))
-        end = (start[0] + 10 * math.cos(self.angle),
-               start[1] + 10 * math.sin(self.angle))
-        if min([start[0], end[0]]) < 0:
-            self.target_angle = (math.pi - self.target_angle) % (2 * math.pi)
-            self.angle = (math.pi - self.angle) % (2 * math.pi)
-        if min([start[1], end[1]]) < 0:
-            self.target_angle = -self.target_angle
-            self.angle = -self.angle
-        if max(start[0], end[0]) > width:
-            self.target_angle = (math.pi - self.target_angle) % (2 * math.pi)
-            self.angle = (math.pi - self.angle) % (2 * math.pi)
-        if max(start[1], end[1]) > height:
-            self.target_angle = -self.target_angle
-            self.angle = -self.angle
-        self.start = start
-        self.end = end
+        self.start = (min(max(start[0], 0), width),
+                      min(max(start[1], 0), height))
+        self.end = (start[0] + 15 * math.cos(self.angle),
+                    start[1] + 15 * math.sin(self.angle))
 
     def draw(self, screen: pygame.Surface):
         """Draw the screen."""
