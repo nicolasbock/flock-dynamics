@@ -40,7 +40,7 @@ class TestFish(unittest.TestCase):
         self.assertEqual(fish.target_speed, 5)
 
     def test_set_angle(self):
-        """Test set the angle."""
+        """Test setting the angle."""
         fish = Fish(angle=0.1)
         self.assertEqual(fish.angle, 0.1)
         self.assertEqual(fish.target_angle, 0.1)
@@ -54,38 +54,41 @@ class TestFish(unittest.TestCase):
         fish.set_angle(1.8)
         self.assertEqual(fish.angle, 0)
         self.assertEqual(fish.target_angle, 1.8)
-        fish.update(100, 100)
+        fish.update()
         self.assertAlmostEqual(fish.angle, 2 * math.pi / 30)
 
     def test_get_distance(self):
         """Test the distance util method."""
         fish_1 = Fish(0, 0)
         fish_2 = Fish(3, 10)
+        print(fish_1)
+        print(fish_2)
         self.assertEqual(fish_1.get_distance_to_other_fish(fish_2),
                          math.sqrt(3**2 + 10**2))
 
     def test_get_direction(self):
-        """Test the direction to other fish."""
+        """Test getting the direction to other fish."""
         fish = Fish(0, 0)
         angles = [
             0,
             0.3,
             math.pi / 2,
-            1.9, math.pi,
+            1.9,
+            math.pi,
             3.5,
             3 / 2 * math.pi,
             5.4,
             2 * math.pi,
             7,
-            ]
+        ]
         for angle in angles:
             self.assertAlmostEqual(
                 fish.get_direction_to_other_fish(
                     Fish(math.cos(angle), math.sin(angle))),
                 angle % (2 * math.pi))
 
-    def test_periodic_boundary_conditions(self):
-        """Test the periodic boundary conditions."""
-        fish = Fish(Fish.LENGTH, 0, angle=math.pi, speed=1)
-        fish.update(100, 100)
+    def test_box_boundaries(self):
+        """Test the box boundaries."""
+        fish = Fish(FISH_LENGTH, 0, angle=math.pi, speed=1)
+        fish.update()
         self.assertGreater(fish.start[0], 0)
