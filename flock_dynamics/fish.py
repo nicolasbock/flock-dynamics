@@ -22,6 +22,7 @@ class Fish():
             (self.start[0] + SimulationParameters.FISH_LENGTH * math.sin(self.angle),
              self.start[1] + SimulationParameters.FISH_LENGTH * math.cos(self.angle))
 
+        self.enforce_boundary()
 
     def __str__(self) -> str:
         return f'Fish f{id(self)} at ({self.start[0]}, {self.start[1]})'
@@ -38,6 +39,25 @@ class Fish():
             return True
         return False
 
+    def enforce_boundary(self):
+        """Check that the fish is inside the box and stays there."""
+        if self.start[0] < 0 or self.end[0] < 0:
+            shift = max(-self.start[0], -self.end[0])
+            self.start = (self.start[0] + shift, self.start[1])
+            self.end = (self.end[0] + shift, self.end[1])
+        if self.start[1] < 0 or self.end[1] < 0:
+            shift = max(-self.start[1], -self.end[1])
+            self.start = (self.start[0], self.start[1] + shift)
+            self.end = (self.end[0], self.end[1] + shift)
+        if self.start[0] > SimulationParameters.WIDTH or self.end[0] > SimulationParameters.WIDTH:
+            shift = max(self.start[0] - SimulationParameters.WIDTH, self.end[0] - SimulationParameters.WIDTH)
+            self.start = (self.start[0] + shift, self.start[1])
+            self.end = (self.end[0] + shift, self.end[1])
+        if self.start[1] > SimulationParameters.HEIGHT or self.end[1] > SimulationParameters.HEIGHT:
+            shift = max(self.start[1] - SimulationParameters.HEIGHT, self.end[1] - SimulationParameters.HEIGHT)
+            self.start = (self.start[0], self.start[1] + shift)
+            self.end = (self.end[0], self.end[1] + shift)
+
     def set_speed(self, speed: float):
         """Set the target speed of the fish."""
         self.target_speed = speed
@@ -49,8 +69,8 @@ class Fish():
     def get_distance_to_other_fish(self, other) -> float:
         """Get the distance to another fish."""
         return math.sqrt(
-            (self.start[0] - other.start[0])**2
-            + (self.start[1] - other.start[1])**2)
+            (self.start[0] - other.start[0])**2 +
+            (self.start[1] - other.start[1])**2)
 
     def get_direction_to_other_fish(self, other) -> float:
         """Get the direction (angle) to another fish."""
@@ -85,27 +105,11 @@ class Fish():
                 math.fabs(self.target_speed - self.speed))
 
         # Advance fish in time.
-        start = [self.start[0] + self.speed * math.cos(self.angle),
-                 self.start[1] + self.speed * math.sin(self.angle)]
-        end = [start[0] + 15 * math.cos(self.angle),
-               start[1] + 15 * math.sin(self.angle)]
-
-        # Periodic boundary conditions.
-        if min(start[0], end[0]) < 0:
-            start[0] += width
-            end[0] += width
-        if min(start[1], end[1]) < 0:
-            start[1] += height
-            end[1] += height
-        if max(start[0], end[0]) > width:
-            start[0] -= width
-            end[0] -= width
-        if max(start[1], end[1]) > width:
-            start[1] -= width
-            end[1] -= width
-
-        self.start = (start[0], start[1])
-        self.end = (end[0], end[1])
+        self.start = (self.start[0] + self.speed * math.cos(self.angle),
+                      self.start[1] + self.speed * math.sin(self.angle))
+        self.end = (self.start[0] + SimulationParameters.FISH_LENGTH * math.cos(self.angle),
+                    self.start[1] + SimulationParameters.FISH_LENGTH * math.sin(self.angle))
+        self.enforce_boundary()
 
     def draw(self, screen: pygame.Surface):
         """Draw the screen."""
