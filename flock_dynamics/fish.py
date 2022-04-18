@@ -1,11 +1,12 @@
 import math
 import pygame
 
-FPS = 30
-
 
 class Fish():
     """A fish."""
+
+    FPS: int = 30
+    LENGTH: int = 15
 
     def __init__(self,
                  x: float = 0,
@@ -17,8 +18,8 @@ class Fish():
         self.speed = speed
         self.target_speed = speed
         self.start = (x, y)
-        self.end = (self.start[0] + 10 * math.sin(self.angle),
-                    self.start[1] + 10 * math.cos(self.angle))
+        self.end = (self.start[0] + Fish.LENGTH * math.sin(self.angle),
+                    self.start[1] + Fish.LENGTH * math.cos(self.angle))
 
     def __str__(self) -> str:
         return f'Fish f{id(self)} at ({self.start[0]}, {self.start[1]})'
@@ -68,10 +69,10 @@ class Fish():
     def update(self, width: float, height: float):
         """Update speed and angle of fish."""
         if self.target_angle > self.angle:
-            self.angle += min(2 * math.pi / FPS,
+            self.angle += min(2 * math.pi / Fish.FPS,
                               self.target_angle - self.angle)
         else:
-            self.angle -= min(2 * math.pi / FPS,
+            self.angle -= min(2 * math.pi / Fish.FPS,
                               self.angle - self.target_angle)
 
         # TODO: "Slowly" increase the speed. This will require

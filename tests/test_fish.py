@@ -76,3 +76,9 @@ class TestFish(unittest.TestCase):
                 fish.get_direction_to_other_fish(
                     Fish(math.cos(angle), math.sin(angle))),
                 angle % (2 * math.pi))
+
+    def test_periodic_boundary_conditions(self):
+        """Test the periodic boundary conditions."""
+        fish = Fish(Fish.LENGTH, 0, angle=math.pi, speed=1)
+        fish.update(100, 100)
+        self.assertGreater(fish.start[0], 0)
