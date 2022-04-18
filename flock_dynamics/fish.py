@@ -1,26 +1,27 @@
 import math
 import pygame
+from flock_dynamics.global_parameters import SimulationParameters
 
 
 class Fish():
     """A fish."""
-
-    FPS: int = 30
-    LENGTH: int = 15
 
     def __init__(self,
                  x: float = 0,
                  y: float = 0,
                  angle: float = 0,
                  speed: float = 1):
+
         self.angle: float = angle
         self.target_angle: float = angle
         self.speed: float = speed
         self.target_speed: float = speed
+
         self.start: tuple[float, float] = (x, y)
         self.end: tuple[float, float] = \
-            (self.start[0] + 10 * math.sin(self.angle),
-             self.start[1] + 10 * math.cos(self.angle))
+            (self.start[0] + SimulationParameters.FISH_LENGTH * math.sin(self.angle),
+             self.start[1] + SimulationParameters.FISH_LENGTH * math.cos(self.angle))
+
 
     def __str__(self) -> str:
         return f'Fish f{id(self)} at ({self.start[0]}, {self.start[1]})'
@@ -67,19 +68,21 @@ class Fish():
             return (2 * math.pi + math.atan(y / x)) % (2 * math.pi)
         return math.pi * 3 / 2
 
-    def update(self, width: float, height: float):
+    def update(self):
         """Update speed and angle of fish."""
-        if self.target_angle > self.angle:
-            self.angle += min(2 * math.pi / Fish.FPS,
-                              self.target_angle - self.angle)
-        else:
-            self.angle -= min(2 * math.pi / Fish.FPS,
-                              self.angle - self.target_angle)
+        prefactor = +1
+        if self.target_angle < self.angle:
+            prefactor = -1
+        self.angle += prefactor * \
+            min(2 * math.pi / SimulationParameters.FPS,
+                math.fabs(self.target_angle - self.angle))
 
-        if self.target_speed > self.speed:
-            self.speed += min(2 / Fish.FPS, self.target_speed - self.speed)
-        else:
-            self.speed -= min(2 / Fish.FPS, self.speed - self.target_speed)
+        prefactor = +1
+        if self.target_speed < self.speed:
+            prefactor = -1
+        self.speed += prefactor * \
+            min(2 / SimulationParameters.FPS,
+                math.fabs(self.target_speed - self.speed))
 
         # Advance fish in time.
         start = [self.start[0] + self.speed * math.cos(self.angle),
@@ -107,5 +110,6 @@ class Fish():
     def draw(self, screen: pygame.Surface):
         """Draw the screen."""
         pygame.draw.line(surface=screen, color='white',
-                         start_pos=self.start, end_pos=self.end,
+                         start_pos=self.start,
+                         end_pos=self.end,
                          width=1)

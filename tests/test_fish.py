@@ -16,15 +16,22 @@ class TestFish(unittest.TestCase):
             raise self.failureException(msg)
 
     def setUp(self) -> None:
+        global WIDTH, HEIGHT
+
+        WIDTH = 100
+        HEIGHT = 100
+
         self.addTypeEqualityFunc(Fish, self.is_fish_equal)
 
     def test_fish(self):
         """Test a random Fish."""
-        self.assertEqual(Fish(), Fish(0, 0))
-        self.assertEqual(Fish(2, 3), Fish(2, 3))
+        self.assertEqual(Fish(),
+                         Fish(0, 0))
+        self.assertEqual(Fish(2, 3),
+                         Fish(2, 3))
 
     def test_set_speed(self):
-        """Test set the speed."""
+        """Test setting the speed."""
         fish = Fish(speed=4)
         self.assertEqual(fish.speed, 4)
         self.assertEqual(fish.target_speed, 4)
