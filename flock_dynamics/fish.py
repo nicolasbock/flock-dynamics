@@ -13,13 +13,14 @@ class Fish():
                  y: float = 0,
                  angle: float = 0,
                  speed: float = 1):
-        self.angle = angle
-        self.target_angle = angle
-        self.speed = speed
-        self.target_speed = speed
-        self.start = (x, y)
-        self.end = (self.start[0] + Fish.LENGTH * math.sin(self.angle),
-                    self.start[1] + Fish.LENGTH * math.cos(self.angle))
+        self.angle: float = angle
+        self.target_angle: float = angle
+        self.speed: float = speed
+        self.target_speed: float = speed
+        self.start: tuple[float, float] = (x, y)
+        self.end: tuple[float, float] = \
+            (self.start[0] + 10 * math.sin(self.angle),
+             self.start[1] + 10 * math.cos(self.angle))
 
     def __str__(self) -> str:
         return f'Fish f{id(self)} at ({self.start[0]}, {self.start[1]})'
@@ -80,12 +81,28 @@ class Fish():
         else:
             self.speed -= min(2 / Fish.FPS, self.speed - self.target_speed)
 
-        start = (self.start[0] + self.speed * math.cos(self.angle),
-                 self.start[1] + self.speed * math.sin(self.angle))
-        self.start = (min(max(start[0], 0), width),
-                      min(max(start[1], 0), height))
-        self.end = (start[0] + 15 * math.cos(self.angle),
-                    start[1] + 15 * math.sin(self.angle))
+        # Advance fish in time.
+        start = [self.start[0] + self.speed * math.cos(self.angle),
+                 self.start[1] + self.speed * math.sin(self.angle)]
+        end = [start[0] + 15 * math.cos(self.angle),
+               start[1] + 15 * math.sin(self.angle)]
+
+        # Periodic boundary conditions.
+        if min(start[0], end[0]) < 0:
+            start[0] += width
+            end[0] += width
+        if min(start[1], end[1]) < 0:
+            start[1] += height
+            end[1] += height
+        if max(start[0], end[0]) > width:
+            start[0] -= width
+            end[0] -= width
+        if max(start[1], end[1]) > width:
+            start[1] -= width
+            end[1] -= width
+
+        self.start = (start[0], start[1])
+        self.end = (end[0], end[1])
 
     def draw(self, screen: pygame.Surface):
         """Draw the screen."""
