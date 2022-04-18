@@ -75,9 +75,10 @@ class Fish():
             self.angle -= min(2 * math.pi / Fish.FPS,
                               self.angle - self.target_angle)
 
-        # TODO: "Slowly" increase the speed. This will require
-        # information on game clock.
-        self.speed = self.target_speed
+        if self.target_speed > self.speed:
+            self.speed += min(2 / Fish.FPS, self.target_speed - self.speed)
+        else:
+            self.speed -= min(2 / Fish.FPS, self.speed - self.target_speed)
 
         start = (self.start[0] + self.speed * math.cos(self.angle),
                  self.start[1] + self.speed * math.sin(self.angle))
