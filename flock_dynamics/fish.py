@@ -117,3 +117,7 @@ class Fish():
                          start_pos=self.start,
                          end_pos=self.end,
                          width=1)
+        pygame.draw.circle(surface=screen,
+                           color='red',
+                           center=self.start,
+                           radius=3)
