@@ -19,8 +19,10 @@ class Fish():
 
         self.start: tuple[float, float] = (x, y)
         self.end: tuple[float, float] = \
-            (self.start[0] + SimulationParameters.FISH_LENGTH * math.sin(self.angle),
-             self.start[1] + SimulationParameters.FISH_LENGTH * math.cos(self.angle))
+            (self.start[0] +
+             SimulationParameters.FISH_LENGTH * math.sin(self.angle),
+             self.start[1] +
+             SimulationParameters.FISH_LENGTH * math.cos(self.angle))
 
         self.enforce_boundary()
 
@@ -49,12 +51,16 @@ class Fish():
             shift = max(-self.start[1], -self.end[1])
             self.start = (self.start[0], self.start[1] + shift)
             self.end = (self.end[0], self.end[1] + shift)
-        if self.start[0] > SimulationParameters.WIDTH or self.end[0] > SimulationParameters.WIDTH:
-            shift = max(self.start[0] - SimulationParameters.WIDTH, self.end[0] - SimulationParameters.WIDTH)
+        if self.start[0] > SimulationParameters.WIDTH or \
+                self.end[0] > SimulationParameters.WIDTH:
+            shift = max(self.start[0] - SimulationParameters.WIDTH,
+                        self.end[0] - SimulationParameters.WIDTH)
             self.start = (self.start[0] + shift, self.start[1])
             self.end = (self.end[0] + shift, self.end[1])
-        if self.start[1] > SimulationParameters.HEIGHT or self.end[1] > SimulationParameters.HEIGHT:
-            shift = max(self.start[1] - SimulationParameters.HEIGHT, self.end[1] - SimulationParameters.HEIGHT)
+        if self.start[1] > SimulationParameters.HEIGHT or \
+                self.end[1] > SimulationParameters.HEIGHT:
+            shift = max(self.start[1] - SimulationParameters.HEIGHT,
+                        self.end[1] - SimulationParameters.HEIGHT)
             self.start = (self.start[0], self.start[1] + shift)
             self.end = (self.end[0], self.end[1] + shift)
 
@@ -107,8 +113,10 @@ class Fish():
         # Advance fish in time.
         self.start = (self.start[0] + self.speed * math.cos(self.angle),
                       self.start[1] + self.speed * math.sin(self.angle))
-        self.end = (self.start[0] + SimulationParameters.FISH_LENGTH * math.cos(self.angle),
-                    self.start[1] + SimulationParameters.FISH_LENGTH * math.sin(self.angle))
+        self.end = (self.start[0] +
+                    SimulationParameters.FISH_LENGTH * math.cos(self.angle),
+                    self.start[1] +
+                    SimulationParameters.FISH_LENGTH * math.sin(self.angle))
         self.enforce_boundary()
 
     def draw(self, screen: pygame.Surface):

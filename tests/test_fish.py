@@ -2,6 +2,7 @@
 
 import unittest
 import math
+from flock_dynamics.global_parameters import SimulationParameters
 from flock_dynamics.fish import Fish
 
 
@@ -16,11 +17,8 @@ class TestFish(unittest.TestCase):
             raise self.failureException(msg)
 
     def setUp(self) -> None:
-        global WIDTH, HEIGHT
-
-        WIDTH = 100
-        HEIGHT = 100
-
+        SimulationParameters.WIDTH = 100
+        SimulationParameters.HEIGHT = 100
         self.addTypeEqualityFunc(Fish, self.is_fish_equal)
 
     def test_fish(self):
@@ -61,14 +59,12 @@ class TestFish(unittest.TestCase):
         """Test the distance util method."""
         fish_1 = Fish(0, 0)
         fish_2 = Fish(3, 10)
-        print(fish_1)
-        print(fish_2)
         self.assertEqual(fish_1.get_distance_to_other_fish(fish_2),
                          math.sqrt(3**2 + 10**2))
 
     def test_get_direction(self):
         """Test getting the direction to other fish."""
-        fish = Fish(0, 0)
+        fish = Fish(50, 50)
         angles = [
             0,
             0.3,
@@ -84,11 +80,13 @@ class TestFish(unittest.TestCase):
         for angle in angles:
             self.assertAlmostEqual(
                 fish.get_direction_to_other_fish(
-                    Fish(math.cos(angle), math.sin(angle))),
+                    Fish(50 + 20 * math.cos(angle),
+                         50 + 20 * math.sin(angle))),
                 angle % (2 * math.pi))
 
     def test_box_boundaries(self):
         """Test the box boundaries."""
-        fish = Fish(FISH_LENGTH, 0, angle=math.pi, speed=1)
+        fish = Fish(SimulationParameters.FISH_LENGTH, 0,
+                    angle=math.pi, speed=1)
         fish.update()
         self.assertGreater(fish.start[0], 0)
