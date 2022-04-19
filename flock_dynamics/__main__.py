@@ -3,10 +3,9 @@
 import argparse
 import sys
 import pygame
+from flock_dynamics.global_parameters import SimulationParameters
 from flock_dynamics.school import School
 from flock_dynamics.simulation import simulation_step
-
-FPS = 30  # frames per second
 
 
 def parse_commandline() -> argparse.Namespace:
@@ -37,12 +36,14 @@ def start_simulation(options: argparse.Namespace):
     """The main simulation."""
     pygame.init()
     fps_clock = pygame.time.Clock()
-    size = width, height = options.width, options.height
+
+    size = SimulationParameters.WIDTH, SimulationParameters.HEIGHT \
+        = options.width, options.height
 
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption('Flock Dynamics')
 
-    school = School(options.school_size, width, height)
+    school = School(options.school_size)
 
     while True:
         for event in pygame.event.get():
@@ -51,9 +52,9 @@ def start_simulation(options: argparse.Namespace):
                 sys.exit()
 
         screen.fill('blue')
-        simulation_step(screen, school, width, height)
+        simulation_step(screen, school)
         pygame.display.flip()
-        fps_clock.tick(FPS)
+        fps_clock.tick(SimulationParameters.FPS)
 
 
 def main():

@@ -25,11 +25,9 @@ def update_speed_and_angle(school: School, fish: Fish):
 
 
 def simulation_step(screen: pygame.Surface,
-                    school: School,
-                    width: float,
-                    height: float):
+                    school: School):
     """Take another simulation step."""
     for fish in school.get_fish():
         update_speed_and_angle(school, fish)
-        fish.update(width, height)
+        fish.update()
         fish.draw(screen)

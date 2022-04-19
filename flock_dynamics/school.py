@@ -1,24 +1,25 @@
+"""A school of fish."""
+
 import math
 from random import random
 from flock_dynamics.fish import Fish
+from flock_dynamics.global_parameters import SimulationParameters
 
 
 class School():
     """A school of fish."""
 
-    def __init__(self,
-                 school_size: int = 1,
-                 width: float = 0,
-                 height: float = 0):
+    def __init__(self, school_size: int = 1):
         """Initialize the school."""
-        if school_size > 0 and (width == 0 or height == 0):
-            raise Exception('specify both width and height')
+        if school_size < 0:
+            raise Exception(
+                'School size has to be greater than or equal to 0!')
 
         self.school = []
         for _ in range(school_size):
             self.school.append(
-                Fish(width * random(),  # nosec
-                     height * random(),  # nosec
+                Fish(SimulationParameters.WIDTH * random(),  # nosec
+                     SimulationParameters.HEIGHT * random(),  # nosec
                      angle=2 * math.pi * random(),
                      speed=2 + 2 * random()))
 

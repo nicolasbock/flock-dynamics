@@ -2,6 +2,7 @@
 
 import unittest
 import math
+from flock_dynamics.global_parameters import SimulationParameters
 from flock_dynamics.fish import Fish
 
 
@@ -16,15 +17,19 @@ class TestFish(unittest.TestCase):
             raise self.failureException(msg)
 
     def setUp(self) -> None:
+        SimulationParameters.WIDTH = 100
+        SimulationParameters.HEIGHT = 100
         self.addTypeEqualityFunc(Fish, self.is_fish_equal)
 
     def test_fish(self):
         """Test a random Fish."""
-        self.assertEqual(Fish(), Fish(0, 0))
-        self.assertEqual(Fish(2, 3), Fish(2, 3))
+        self.assertEqual(Fish(),
+                         Fish(0, 0))
+        self.assertEqual(Fish(2, 3),
+                         Fish(2, 3))
 
     def test_set_speed(self):
-        """Test set the speed."""
+        """Test setting the speed."""
         fish = Fish(speed=4)
         self.assertEqual(fish.speed, 4)
         self.assertEqual(fish.target_speed, 4)
@@ -33,7 +38,7 @@ class TestFish(unittest.TestCase):
         self.assertEqual(fish.target_speed, 5)
 
     def test_set_angle(self):
-        """Test set the angle."""
+        """Test setting the angle."""
         fish = Fish(angle=0.1)
         self.assertEqual(fish.angle, 0.1)
         self.assertEqual(fish.target_angle, 0.1)
@@ -47,7 +52,7 @@ class TestFish(unittest.TestCase):
         fish.set_angle(1.8)
         self.assertEqual(fish.angle, 0)
         self.assertEqual(fish.target_angle, 1.8)
-        fish.update(100, 100)
+        fish.update()
         self.assertAlmostEqual(fish.angle, 2 * math.pi / 30)
 
     def test_get_distance(self):
@@ -58,27 +63,30 @@ class TestFish(unittest.TestCase):
                          math.sqrt(3**2 + 10**2))
 
     def test_get_direction(self):
-        """Test the direction to other fish."""
-        fish = Fish(0, 0)
+        """Test getting the direction to other fish."""
+        fish = Fish(50, 50)
         angles = [
             0,
             0.3,
             math.pi / 2,
-            1.9, math.pi,
+            1.9,
+            math.pi,
             3.5,
             3 / 2 * math.pi,
             5.4,
             2 * math.pi,
             7,
-            ]
+        ]
         for angle in angles:
             self.assertAlmostEqual(
                 fish.get_direction_to_other_fish(
-                    Fish(math.cos(angle), math.sin(angle))),
+                    Fish(50 + 20 * math.cos(angle),
+                         50 + 20 * math.sin(angle))),
                 angle % (2 * math.pi))
 
-    def test_periodic_boundary_conditions(self):
-        """Test the periodic boundary conditions."""
-        fish = Fish(Fish.LENGTH, 0, angle=math.pi, speed=1)
-        fish.update(100, 100)
+    def test_box_boundaries(self):
+        """Test the box boundaries."""
+        fish = Fish(SimulationParameters.FISH_LENGTH, 0,
+                    angle=math.pi, speed=1)
+        fish.update()
         self.assertGreater(fish.start[0], 0)

@@ -2,6 +2,7 @@
 
 import unittest
 import math
+from flock_dynamics.global_parameters import SimulationParameters
 from flock_dynamics.fish import Fish
 from flock_dynamics.school import School
 
@@ -9,6 +10,8 @@ from flock_dynamics.school import School
 class TestSchool(unittest.TestCase):
     """Test the School class."""
     def setUp(self) -> None:
+        SimulationParameters.WIDTH = 500
+        SimulationParameters.HEIGHT = 500
         fishies = [
             (3, 90),
             (0, 0),
