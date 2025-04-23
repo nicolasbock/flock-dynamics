@@ -100,14 +100,14 @@ class Fish():
         if self.target_angle < self.angle:
             prefactor = -1
         self.angle += prefactor * \
-            min(2 * math.pi / SimulationParameters.FPS,
+            min(2 * math.pi / (2 * SimulationParameters.FPS),
                 math.fabs(self.target_angle - self.angle))
 
         prefactor = +1
         if self.target_speed < self.speed:
             prefactor = -1
         self.speed += prefactor * \
-            min(2 / SimulationParameters.FPS,
+            min(2 / (2 * SimulationParameters.FPS),
                 math.fabs(self.target_speed - self.speed))
 
         # Advance fish in time.

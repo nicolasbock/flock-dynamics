@@ -6,4 +6,4 @@ class SimulationParameters:
     FPS: int = 30  # frames per second
     WIDTH: int = 0
     HEIGHT: int = 0
-    FISH_LENGTH: int = 10
+    FISH_LENGTH: int = 20
